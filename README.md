@@ -1,59 +1,33 @@
 # SafeAllergy
 
-**SafeAllergy** is a Flutter application for **emergency patient management**, designed for fast access to critical patient allergy/medical information using **NFC tags** and **QR codes**.
+SafeAllergy is a Flutter application for emergency patient identification and allergy awareness, designed to provide fast, offline access to critical medical information using NFC tags and QR codes.  
+The application is built to work without any cloud services. All patient data is encrypted and stored directly on NFC tags or encoded inside QR codes. ensuring privacy and availability even without internet access.
 
-### Key Features
+<img width="3418" height="2607" alt="SafeAllergy App" src="https://github.com/user-attachments/assets/a5348b34-6835-4cb4-9d16-8a3714af585d" />
+---
 
-- **Read patient data**
-  - Read from **NFC tag**
-  - Scan from **QR code** (camera) and **QR from gallery image**
-- **Write patient data to NFC**
-  - Protected by **authorized email** verification
-- **Cloud backend (Firebase)**
-  - Patient profiles stored in **Cloud Firestore**
-  - **Audit logging** for read/write events
-- **Modern Flutter UI**
-  - Material 3 styling
-  - BLoC state management (`flutter_bloc`)
+## ✨ Key Features
 
-### Screenshots
+### 🔍 Read Patient Data
+- Read **encrypted patient data** from **NFC tags**
+- Scan encrypted data from:
+  - **QR code **
 
-Add your screenshots to a folder like `screenshots/` and update the paths below:
+### ✍️ Write Patient Data
+- Write **encrypted patient identifiers** to **NFC tags**
+- Writing is protected by **authorized email verification**
 
-| Home                          | Read NFC / QR                 | Patient Details                     |
-| ----------------------------- | ----------------------------- | ----------------------------------- |
-| ![Home](screenshots/home.png) | ![Read](screenshots/read.png) | ![Details](screenshots/details.png) |
+### 🔐 Security & Privacy
+-  Patient data is **encrypted before writing**
 
-### Tech Stack
+### 🎨 UI & Architecture
+- **Material 3** UI
+- **BLoC / Cubit** state management
+- Clean, **service-based architecture**
 
-- **Flutter / Dart**
-- **State management**: `flutter_bloc`
-- **Firebase**: `firebase_core`, `cloud_firestore`, `firebase_auth`
-- **NFC**: `flutter_nfc_kit`
-- **QR**: `mobile_scanner`, `qr_flutter`, `google_mlkit_barcode_scanning`
+---
 
-### Project Structure (high-level)
 
-- `lib/pages/` — screens (home, NFC read/write, QR scan, patient details, auth)
-- `lib/bloc/` — BLoC/Cubit state management
-- `lib/services/` — NFC/QR/Firebase services
-- `assets/images/` — app assets
+## License
 
-### Setup (minimal)
-
-This repo is configured to **not commit project-specific config/secrets** (see `.gitignore`).
-
-- **Flutter**: install Flutter SDK and run:
-
-```bash
-flutter pub get
-flutter run
-```
-
-- **Firebase**: provide your own Firebase project configuration (not committed):
-  - `android/app/google-services.json`
-  - `ios/Runner/GoogleService-Info.plist`
-
-### License
-
-Proprietary — all rights reserved. Replace this section with your preferred license text.
+Proprietary — All rights reserved
