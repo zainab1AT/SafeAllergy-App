@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:safe_allergy/utils/constants.dart';
+
+import 'constants.dart';
 
 class Logger {
   Logger._();

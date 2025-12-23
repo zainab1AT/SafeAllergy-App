@@ -2,21 +2,17 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class Patient extends Equatable {
+  final String? id;
   final String fullName;
-
   final String medicalFileNumber;
-
   final String department;
-
   final List<String> allergies;
-
   final String emergencyContact;
-
   final String emergencyNumber;
-
   final String hospitalName;
 
   const Patient({
+    this.id,
     required this.fullName,
     required this.medicalFileNumber,
     required this.department,
@@ -28,6 +24,7 @@ class Patient extends Equatable {
 
   factory Patient.fromJson(Map<String, dynamic> json) {
     return Patient(
+      id: json['id'] as String?,
       fullName: json['fullName'] as String,
       medicalFileNumber: json['medicalFileNumber'] as String,
       department: json['department'] as String,
@@ -40,6 +37,7 @@ class Patient extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      if (id != null) 'id': id,
       'fullName': fullName,
       'medicalFileNumber': medicalFileNumber,
       'department': department,
@@ -48,6 +46,32 @@ class Patient extends Equatable {
       'emergencyNumber': emergencyNumber,
       'hospitalName': hospitalName,
     };
+  }
+
+  /// Firestore mapping – do NOT store the document id inside the document.
+  Map<String, dynamic> toFirestore() {
+    return {
+      'fullName': fullName,
+      'medicalFileNumber': medicalFileNumber,
+      'department': department,
+      'allergies': allergies,
+      'emergencyContact': emergencyContact,
+      'emergencyNumber': emergencyNumber,
+      'hospitalName': hospitalName,
+    };
+  }
+
+  factory Patient.fromFirestore(Map<String, dynamic> json, String id) {
+    return Patient(
+      id: id,
+      fullName: json['fullName'] as String,
+      medicalFileNumber: json['medicalFileNumber'] as String,
+      department: json['department'] as String,
+      allergies: List<String>.from(json['allergies'] as List),
+      emergencyContact: json['emergencyContact'] as String,
+      emergencyNumber: json['emergencyNumber'] as String,
+      hospitalName: json['hospitalName'] as String,
+    );
   }
 
   String toJsonString() {
@@ -60,6 +84,7 @@ class Patient extends Equatable {
   }
 
   Patient copyWith({
+    String? id,
     String? fullName,
     String? medicalFileNumber,
     String? department,
@@ -69,6 +94,7 @@ class Patient extends Equatable {
     String? hospitalName,
   }) {
     return Patient(
+      id: id ?? this.id,
       fullName: fullName ?? this.fullName,
       medicalFileNumber: medicalFileNumber ?? this.medicalFileNumber,
       department: department ?? this.department,
@@ -81,20 +107,22 @@ class Patient extends Equatable {
 
   @override
   List<Object?> get props => [
-    fullName,
-    medicalFileNumber,
-    department,
-    allergies,
-    emergencyContact,
-    emergencyNumber,
-    hospitalName,
-  ];
+        id,
+        fullName,
+        medicalFileNumber,
+        department,
+        allergies,
+        emergencyContact,
+        emergencyNumber,
+        hospitalName,
+      ];
 
   @override
   String toString() {
-    return 'Patient(fullName: $fullName, medicalFileNumber: $medicalFileNumber, '
+    return 'Patient(id: $id, fullName: $fullName, medicalFileNumber: $medicalFileNumber, '
         'department: $department, allergies: $allergies, '
         'emergencyContact: $emergencyContact, emergencyNumber: $emergencyNumber, '
         'hospitalName: $hospitalName)';
   }
 }
+

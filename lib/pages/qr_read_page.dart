@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:safe_allergy/bloc/qr/qr_cubit.dart';
 import 'package:safe_allergy/pages/patient_detail_page.dart';
+import 'package:safe_allergy/services/qr_service.dart';
 import 'package:safe_allergy/widgets/error_dialog.dart';
 import 'package:safe_allergy/widgets/loading_indicator.dart';
 
@@ -71,6 +72,30 @@ class _QrReadPageState extends State<QrReadPage> {
                 color: Color(0xFF2E658F),
               ),
               onPressed: _switchCamera,
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.image,
+                color: Color(0xFF2E658F),
+              ),
+              onPressed: () async {
+                try {
+                  final qrData =
+                      await QrService.instance.scanQrFromGallery();
+                  if (!mounted) return;
+                  context.read<QrCubit>().parseQrData(qrData);
+                } on QrException catch (e) {
+                  if (!mounted) return;
+                  ErrorDialog.show(context, 'Scan Failed', e.message);
+                } catch (e) {
+                  if (!mounted) return;
+                  ErrorDialog.show(
+                    context,
+                    'Scan Failed',
+                    'Failed to scan QR from image: $e',
+                  );
+                }
+              },
             ),
           ],
         ),

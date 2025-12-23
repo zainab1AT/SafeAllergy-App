@@ -1,38 +1,77 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
+# =========================
+# Flutter / Dart .gitignore
+# =========================
 
+# --- OS / editor / IDE ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*.log
+.history/
+.svn/
 *.iml
 *.ipr
 *.iws
 .idea/
+.vscode/
+*.code-workspace
 
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# --- Flutter / Dart tooling ---
 .dart_tool/
-.flutter-plugins-dependencies
-.pub-cache/
 .pub/
-/build/
-/coverage/
+.pub-cache/
+.packages
+.metadata
+.flutter-plugins
+.flutter-plugins-dependencies
+.fvm/
 
+# --- Build outputs (all platforms) ---
+**/build/
+coverage/
 
+# --- Debug / profiling / obfuscation artifacts ---
 app.*.symbols
-
-# Obfuscation related
 app.*.map.json
+*.snap
+*.dill
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# --- Platform-specific generated caches ---
+**/.gradle/
+**/.cxx/
+**/DerivedData/
+**/Pods/
+**/.symlinks/
+**/Flutter/ephemeral/
+
+# --- Local config / secrets (do not commit) ---
+**/local.properties
+**/key.properties
+**/*.keystore
+**/*.jks
+**/*.p12
+**/*.pfx
+**/*.pem
+**/*.key
+.env
+.env.*
+
+# Firebase config files (commonly project-specific)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+web/firebase-config.js
+
+# --- Distributables ---
+*.apk
+*.aab
+*.ipa
+*.app
+*.dSYM
+*.xcarchive
+*.xcresult
+
+# --- Documentation build output ---
+**/doc/api/

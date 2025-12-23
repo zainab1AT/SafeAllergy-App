@@ -53,6 +53,7 @@ class AuthCubit extends Cubit<AuthState> {
       final isAuthorized = await _authService.checkAuthorization(email);
 
       if (isAuthorized) {
+        _authService.setCurrentAuthorizedEmail(email);
         emit(AuthAuthorized(email));
       } else {
         emit(AuthUnauthorized('Email not authorized for write access'));

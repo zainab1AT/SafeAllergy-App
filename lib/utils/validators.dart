@@ -1,4 +1,4 @@
-import 'package:safe_allergy/utils/constants.dart';
+import 'constants.dart';
 
 class Validators {
   Validators._();

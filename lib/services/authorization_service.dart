@@ -1,12 +1,22 @@
-import 'package:safe_allergy/config/auth_config.dart';
-import 'package:safe_allergy/utils/logger.dart';
-import 'package:safe_allergy/utils/validators.dart';
+
+
+import '../utils/logger.dart';
+import '../utils/validators.dart';
+import 'firebase_service.dart';
 
 class AuthorizationService {
   AuthorizationService._();
 
   static final AuthorizationService _instance = AuthorizationService._();
   static AuthorizationService get instance => _instance;
+
+  String? _currentAuthorizedEmail;
+
+  String? get currentAuthorizedEmail => _currentAuthorizedEmail;
+
+  void setCurrentAuthorizedEmail(String email) {
+    _currentAuthorizedEmail = email;
+  }
 
   Future<bool> checkAuthorization(String email) async {
     final emailError = Validators.validateEmail(email);
@@ -20,18 +30,21 @@ class AuthorizationService {
       return false;
     }
 
-    final isAuthorized = AuthConfig.isAuthorized(email);
+    final normalizedEmail = email.trim().toLowerCase();
+    final isAuthorized =
+        await FirebaseService.instance.isEmailAuthorized(normalizedEmail);
 
     await Logger.logAudit(
       'AUTHORIZATION_CHECK',
-      email,
+      normalizedEmail,
       isAuthorized ? 'SUCCESS' : 'FAILED',
     );
 
+    if (isAuthorized) {
+      _currentAuthorizedEmail = normalizedEmail;
+    }
+
     return isAuthorized;
   }
-
-  int getAuthorizedCount() {
-    return AuthConfig.authorizedCount;
-  }
 }
+

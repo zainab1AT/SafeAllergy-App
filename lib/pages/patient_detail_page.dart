@@ -89,19 +89,29 @@ class PatientDetailPage extends StatelessWidget {
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            GestureDetector(
-              onTap: () async {
-                // await _saveQrAsImage(qrKey);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('QR Code saved to gallery!')),
-                );
-              },
-              child: RepaintBoundary(
-                key: qrKey,
-                child: QrService.instance.createQrWidget(qrData, size: 250),
-              ),
+            RepaintBoundary(
+              key: qrKey,
+              child: QrService.instance.createQrWidget(qrData, size: 250),
             ),
             const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: () async {
+                try {
+                  await QrService.instance.saveQrToGallery(qrKey);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('QR Code saved to gallery!'),
+                    ),
+                  );
+                } on QrException catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(e.message)),
+                  );
+                }
+              },
+              icon: const Icon(Icons.download),
+              label: const Text('Save QR to Gallery'),
+            ),
             Text(
               'Scan this QR code to access patient information',
               style: Theme.of(
